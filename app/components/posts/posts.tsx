@@ -5,9 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 
 import PostCard from "../cards/post-card";
 
-const allPosts = async () => {
-  const response = await axios.get("/api/posts/getPosts");
-  return response.data;
+type PostQueryParams = {
+  take?: number;
+  lastCursor?: string;
+};
+
+const allPosts = async ({take, lastCursor}: PostQueryParams) => {
+  const response = await axios.get("/api/posts/getPosts", { params: { take, lastCursor } })
+  return response?.data.data;
 };
 
 type PostsType = {
@@ -29,22 +34,27 @@ type PostsType = {
 
 const Posts = () => {
   const { data, isLoading, error } = useQuery<PostsType[]>({
-    queryFn: allPosts,
+    queryFn: () => allPosts({ take: 10, lastCursor: "" }),
     queryKey: ["posts"],
   });
 
-  if (error as any) return <div className="mt-10">{"An error has occurred: " + (error as any).message}</div>;
+  if (error as any)
+    return (
+      <div className="mt-10">
+        {"An error has occurred: " + (error as any).message}
+      </div>
+    );
   if (isLoading) return <div className="mt-10">Loading...</div>;
 
   return (
     <div className="mt-10">
-	  {data?.map((post) => (
+      {data?.map((post) => (
         <PostCard
           key={post.id}
           name={post.user.name}
           profilePic={post.user.image}
           body={post.body}
-		  createdAt={post.createdAt as string}
+          createdAt={post.createdAt as string}
         />
       ))}
     </div>
