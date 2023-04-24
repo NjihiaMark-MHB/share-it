@@ -1,4 +1,3 @@
-import PostCard from "./components/cards/post-card";
 import CreatePostForm from "./components/posts/create-post-form";
 import Posts from "./components/posts/posts";
 
