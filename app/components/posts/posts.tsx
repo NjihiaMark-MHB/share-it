@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
@@ -38,15 +38,11 @@ type PostsType = {
 
 const Posts = () => {
   const { ref, inView } = useInView();
-  const [lastCursor, setLastCursor] = useState<string>("");
 
   const { data, error, isLoading, hasNextPage, fetchNextPage, isSuccess, isFetchingNextPage } = useInfiniteQuery({
     queryFn: ({pageParam=""}) => allPosts({ take: 10, lastCursor: pageParam }),
     queryKey: ["posts"],
     getNextPageParam: (lastPage, allPages) => {
-      // console.log("allPages", allPages);
-      // setLastCursor(lastPage?.metaData.lastCursor as string);
-      // console.log("lastPage lastCursor", lastPage?.metaData.lastCursor);
       return lastPage?.metaData.lastCursor;
     },
   });
@@ -63,8 +59,6 @@ const Posts = () => {
         {"An error has occurred: " + (error as any).message}
       </div>
     );
-
-  // console.log("hasNextPage", hasNextPage);
 
   return (
     <div className="mt-10">
