@@ -17,7 +17,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 type IProps = {
-	closeModal: () => void;
+  closeModal: () => void;
 };
 
 export default function DeleteUserForm({ closeModal }: IProps) {
@@ -32,7 +32,12 @@ export default function DeleteUserForm({ closeModal }: IProps) {
 
   const { mutate } = useMutation(
     async (data: FormData) =>
-      await axios.post("/api/users/deleteUserProfile", data),
+      await axios.delete("/api/users/deleteUserProfile", {
+        params: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
     {
       onError: (error: any) => {
         console.log(error);
@@ -42,19 +47,16 @@ export default function DeleteUserForm({ closeModal }: IProps) {
       },
       onSuccess: (data) => {
         toast.success("Profile has been deleted 🔥", { id: "profile-toast" });
-		router.replace("/");
+        router.replace("/");
 
-		setTimeout(signOut, 1000);
-        // signOut();
-		//router.refresh();
-        // console.log(data.data);
+        setTimeout(signOut, 1000);
       },
     }
   );
 
   const onSubmit = async (data: FormData) => {
     toast.loading("Deleting Profile", { id: "profile-toast" });
-	closeModal();
+    closeModal();
     mutate(data);
   };
   return (

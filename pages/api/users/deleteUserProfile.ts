@@ -8,14 +8,14 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	if (req.method === "POST") {
+	if (req.method === "DELETE") {
 		// fetch all posts
 		const session = await getServerSession(req, res, authOptions);
 		if (!session) {
 			return res.status(401).json({ error: "Unauthorized" });
 		}
 
-		const { deleteProfile } = req.body;
+		const { deleteProfile } = req.query;
 		if (deleteProfile == "Delete") {
 			try {
 				const result = await prisma.user.delete({

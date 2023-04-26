@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
+  if (req.method === "PUT") {
     // fetch all posts
     const session = await getServerSession(req, res, authOptions);
     if (!session) {

@@ -19,7 +19,7 @@ model Post {
   Image     String?
   published Boolean  @default(false)
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   Comment   Comment[]
 }
 

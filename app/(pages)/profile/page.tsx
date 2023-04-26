@@ -1,4 +1,3 @@
-import { use } from "react";
 import { getServerSession } from "next-auth/next";
 import prisma from "../../../prisma/prisma";
 import LoginRequired from "@/app/auth/auth-required";

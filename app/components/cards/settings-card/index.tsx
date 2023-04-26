@@ -54,7 +54,7 @@ export default function CardSettings(props: FormData) {
         if (!error && result && result.event === "success") {
           const image = result.info.secure_url;
           axios
-            .post("/api/users/updateAvatar", { image })
+            .put("/api/users/updateAvatar", { image })
             .then(function (response) {
               console.log(response.data);
               setAvatar(response.data.image);
@@ -70,7 +70,7 @@ export default function CardSettings(props: FormData) {
 
   const { mutate } = useMutation(
     async (data: FormData) =>
-      await axios.post("/api/users/updateProfile", data),
+      await axios.put("/api/users/updateProfile", data),
     {
       onError: (error: any) => {
         console.log(error);
