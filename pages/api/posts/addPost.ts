@@ -15,19 +15,13 @@ export default async function handler(
 			return res.status(401).json({ error: "Unauthorized" });
 		}
 
-		const prismaUser = await prisma.user.findUnique({
-			where: {
-				email: session.user?.email || undefined
-			}
-		});
-
 		try {
 			const {body} = req.body;
 
 			const result = await prisma.post.create({
 				data: {
 					body: body,
-					userId: prismaUser?.id as string,
+					userId: session.user.id as string,
 				},
 			});
 			res.status(200).json(result)

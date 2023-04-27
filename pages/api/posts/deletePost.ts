@@ -18,12 +18,6 @@ export default async function handler(
 		const { postId } = req.body;
 
 		try {
-			const prismaUser = await prisma.user.findUnique({
-				where: {
-					email: session.user?.email || undefined
-				}
-			});
-
 			const post = await prisma.post.findUnique({
 				where: { id: postId as string },
 				select: { userId: true },
@@ -32,7 +26,7 @@ export default async function handler(
 				res.status(404).json({ message: "Post not found" });
 				return;
 			}
-			if (post.userId !== prismaUser.id) {
+			if (post.userId !== session.user.id) {
 				res.status(403).json({ message: "Forbidden" });
 				return;
 			}
