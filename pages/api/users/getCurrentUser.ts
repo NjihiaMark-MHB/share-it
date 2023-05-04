@@ -22,9 +22,9 @@ export default async function handler(
 				}
 			}
 			);
-			res.status(200).json(result)
+			return res.status(200).json(result)
 		} catch (error: any) {
-			res.status(403).json({ error: error.message })
+			return res.status(403).json({ error: error.message })
 		}
 	}
 }

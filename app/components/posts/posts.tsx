@@ -24,6 +24,7 @@ type PostsType = {
   title?: string;
   id: string;
   createdAt?: string;
+  updatedAt?: string;
   body: string;
   Comment?: {
     createdAt: string;
@@ -78,6 +79,7 @@ const Posts = () => {
                 profilePic={post.user.image}
                 body={post.body}
                 createdAt={post.createdAt as string}
+                updatedAt={post.updatedAt as string}
                 userId={post.user?.id}
                 currentUserId={user?.id}
               />
@@ -92,6 +94,7 @@ const Posts = () => {
               profilePic={post.user.image}
               body={post.body}
               createdAt={post.createdAt as string}
+              updatedAt={post.updatedAt as string}
               currentUserId={user?.id}
               userId={post.user?.id}
             />

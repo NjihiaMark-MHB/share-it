@@ -23,12 +23,12 @@ export default async function handler(
 						email: session?.user?.email,
 					},
 				});
-				res.status(200).json(result);
+				return res.status(200).json(result);
 			} catch (error: any) {
-				res.status(403).json({ error: error.message });
+				return res.status(403).json({ error: error.message });
 			}
 		}else{
-			res.status(403).json({ error: "Invalid phrase request" });
+			return res.status(403).json({ error: "Invalid phrase request" });
 		}
 	}
 }

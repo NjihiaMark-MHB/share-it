@@ -19,6 +19,7 @@ type PostCardProps = {
   name: string;
   profilePic: string;
   createdAt: string;
+  updatedAt: string;
   body: string;
   userId: string;
   currentUserId: string;
@@ -62,7 +63,7 @@ const PostCard = (props: PostCardProps) => {
           <div className="font-medium text-gray-700">
             {capitalizeWord(props.name)}
           </div>
-          <div className="text-gray-400">{formatDate(props.createdAt)}</div>
+          <div className="text-gray-400">{formatDate(props.createdAt)} {props.createdAt != props.updatedAt && <i>(edited)</i>}</div>
         </div>
       </div>
       <div className="mt-9 mb-9 text-gray-500">{props.body}</div>

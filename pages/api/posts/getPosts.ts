@@ -33,7 +33,7 @@ export default async function handler(
 
 
       if (result.length == 0) {
-        res.status(200).json({
+        return res.status(200).json({
           data: [],
           metaData: {
             lastCursor: null,
@@ -61,9 +61,9 @@ export default async function handler(
         }
       };
 
-      res.status(200).json(data);
+      return res.status(200).json(data);
     } catch (error: any) {
-      res.status(403).json({ error: error.message })
+      return res.status(403).json({ error: error.message })
     }
   }
 }

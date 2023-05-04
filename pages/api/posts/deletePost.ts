@@ -24,12 +24,10 @@ export default async function handler(
 				select: { userId: true },
 			});
 			if (!post) {
-				res.status(404).json({ message: "Post not found" });
-				return;
+				return res.status(404).json({ message: "Post not found" });
 			}
 			if (post.userId !== session.user.id) {
-				res.status(403).json({ message: "Forbidden" });
-				return;
+				return res.status(403).json({ message: "Forbidden" });
 			}
 
 			const result = await prisma.post.delete({
@@ -42,7 +40,7 @@ export default async function handler(
 
 		} catch (err) {
 			// console.log(err);
-			res.status(402).json({ err: "Error has occured while deleting a post" });
+			return res.status(402).json({ err: "Error has occured while deleting a post" });
 		}
 	}
 }

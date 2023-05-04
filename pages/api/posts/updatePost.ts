@@ -23,12 +23,10 @@ export default async function handler(
 				select: { userId: true },
 			});
 			if (!post) {
-				res.status(404).json({ message: "Post not found" });
-				return;
+				return res.status(404).json({ message: "Post not found" });
 			}
 			if (post.userId !== session.user.id) {
-				res.status(403).json({ message: "Forbidden" });
-				return;
+				return res.status(403).json({ message: "Forbidden" });
 			}
 			const result = await prisma.post.update({
 				where: {
@@ -38,9 +36,9 @@ export default async function handler(
 					body
 				},
 			});
-			res.status(200).json(result);
+			return res.status(200).json(result);
 		} catch (error: any) {
-			res.status(403).json({ error: error.message });
+			return res.status(403).json({ error: error.message });
 		}
 	}
 }
