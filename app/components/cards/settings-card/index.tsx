@@ -25,7 +25,7 @@ type FormData = z.infer<typeof schema>;
 export default function CardSettings(props: FormData) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   // create a post
   const isBrowser = typeof window !== "undefined";

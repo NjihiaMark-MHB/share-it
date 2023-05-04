@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 const schema = z.object({
   body: z
     .string()
+    .trim()
     .nonempty({ message: "Can't be blank" })
     .max(300, { message: "Should not exceed 300 characters" }),
 });

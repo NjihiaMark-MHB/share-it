@@ -7,7 +7,7 @@ import ProfileDropDownMenu from "@/app/components/profile/profile-dropdown-menu"
 
 export default function LoginLink() {
   const { data: session } = useSession();
-  console.log("session", session);
+  // console.log("session", session);
   return (
     <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
       {session ? (

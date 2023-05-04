@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
+import { useSession } from "next-auth/react";
 
 import PostCard from "../cards/post-card";
 
@@ -33,6 +34,7 @@ type PostsType = {
   user: {
     name: string;
     image: string;
+    id: string;
   };
 };
 
@@ -46,6 +48,9 @@ const Posts = () => {
       return lastPage?.metaData.lastCursor;
     },
   });
+
+  const { data: session } = useSession();
+  const {user} = session || {};
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -68,10 +73,13 @@ const Posts = () => {
             <div ref={ref} key={index}>
               <PostCard
                 key={post.id}
+                postId={post.id}
                 name={post.user.name}
                 profilePic={post.user.image}
                 body={post.body}
                 createdAt={post.createdAt as string}
+                userId={post.user?.id}
+                currentUserId={user?.id}
               />
             </div>
           );
@@ -80,9 +88,12 @@ const Posts = () => {
             <PostCard
               key={post.id}
               name={post.user.name}
+              postId={post.id}
               profilePic={post.user.image}
               body={post.body}
               createdAt={post.createdAt as string}
+              currentUserId={user?.id}
+              userId={post.user?.id}
             />
           );
         }
