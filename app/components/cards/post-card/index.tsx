@@ -102,7 +102,7 @@ const PostCard = (props: PostCardProps) => {
             <span className="text-gray-400 mr-4">0 comments</span>
             {loadLike ? <i className="fa-solid fa-spinner text-red-600"></i> : <HeartIcon
               fill={currentUserLiked}
-              onClick={() => likePost({ postId: props.postId })}
+              onClick={() => session && likePost({ postId: props.postId })}
             />}
             <span className="text-gray-400 ml-1">{props.likes.length}</span>
           </div>
