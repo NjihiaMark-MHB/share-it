@@ -19,11 +19,12 @@ export default async function handler(
         ...(lastCursor && {
           skip: 1, // Do not include the cursor itself in the query result.
           cursor: {
-            id: lastCursor,
+            id: lastCursor as string,
           }
         }),
         include: {
           user: true,
+          PostLike: true,
         },
         orderBy: {
           createdAt: "desc",

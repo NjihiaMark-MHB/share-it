@@ -26,6 +26,7 @@ type PostsType = {
   createdAt?: string;
   updatedAt?: string;
   body: string;
+  PostLike: { id: string; postId: string; userId: string }[];
   Comment?: {
     createdAt: string;
     id: string;
@@ -66,6 +67,8 @@ const Posts = () => {
       </div>
     );
 
+    // console.log("data:",data);
+
   return (
     <div className="mt-10">
       {isSuccess && data?.pages.map((page) => page.data.map((post: PostsType, index: number) => {
@@ -77,6 +80,7 @@ const Posts = () => {
                 postId={post.id}
                 name={post.user.name}
                 profilePic={post.user.image}
+                likes={post.PostLike}
                 body={post.body}
                 createdAt={post.createdAt as string}
                 updatedAt={post.updatedAt as string}
@@ -92,6 +96,7 @@ const Posts = () => {
               name={post.user.name}
               postId={post.id}
               profilePic={post.user.image}
+              likes={post.PostLike}
               body={post.body}
               createdAt={post.createdAt as string}
               updatedAt={post.updatedAt as string}

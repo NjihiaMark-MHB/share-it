@@ -22,13 +22,13 @@ export default async function Page() {
     }
   }
 
-  const currentUser = await getCurrentUser();
+  const currentUser: any = await getCurrentUser();
 
   return (
     <>
       {session ? (
         <>
-          {!currentUser.error ? (
+          {!currentUser?.error ? (
             <div className="pt-40">
               <div className="container mx-auto px-2">
                 <CardSettings

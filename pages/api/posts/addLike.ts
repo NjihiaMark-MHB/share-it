@@ -16,6 +16,7 @@ export default async function handler(
 		}
 
 		const { postId } = req.body;
+		// console.log("postId", postId);
 		// Get user from database
 		const prismaUser = await prisma.user.findUnique({
 			where: { email: session?.user?.email || undefined },
