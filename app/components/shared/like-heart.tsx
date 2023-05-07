@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 
-type HeartIconProps={ fill: boolean; onClick: Function }
+type HeartIconProps={ fill: boolean; onClick: (e: MouseEvent<any>) => void; }
 
 const HeartIcon = ({ fill, onClick }: HeartIconProps) => {
 	const [hover, setHover] = useState(false);
@@ -13,7 +13,7 @@ const HeartIcon = ({ fill, onClick }: HeartIconProps) => {
 		viewBox="0 0 24 24"
 		fill={fill ? "#F31260" : "none"}
 		xmlns="http://www.w3.org/2000/svg"
-		onClick={() => onClick()}
+		onClick={onClick}
 		onMouseEnter={() => setHover(true)}
 		onMouseLeave={() => setHover(false)}
 		className="cursor-pointer inline-block"

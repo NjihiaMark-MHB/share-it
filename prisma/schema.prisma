@@ -11,43 +11,45 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String?
-  body      String?
-  Image     String?
-  published Boolean  @default(false)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Comment   Comment[]
-  PostLike  PostLike[]
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  title       String?
+  body        String?
+  Image       String?
+  published   Boolean       @default(false)
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Comment     Comment[]
+  PostLike    PostLike[]
 }
 
 model Comment {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  message   String
-  userId    String
-  postId    String
-  user      User     @relation(fields: [userId], references: [id])
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  body        String
+  Image       String?
+  userId      String
+  postId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post        Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  CommentLike CommentLike[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -63,9 +65,9 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   bio           String?
@@ -73,6 +75,7 @@ model User {
   sessions      Session[]
   Post          Post[]
   PostLike      PostLike[]
+  commentLike   CommentLike[]
   Comment       Comment[]
 }
 
@@ -82,6 +85,14 @@ model PostLike {
   userId String
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CommentLike {
+  id        String  @id @default(cuid())
+  commentId String
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

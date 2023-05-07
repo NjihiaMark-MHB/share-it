@@ -17,7 +17,7 @@ import EditPostForm from "./edit-post-form";
 import Modal from "../../modals";
 import { ModalSize } from "../../modals";
 
-type PostCardProps = {
+type CommentCardProps = {
   name: string;
   profilePic: string;
   createdAt: string;
@@ -29,7 +29,7 @@ type PostCardProps = {
   postId: string;
 };
 
-const PostCard = ({
+const CommentCard = ({
   name,
   profilePic,
   createdAt,
@@ -39,7 +39,7 @@ const PostCard = ({
   userId,
   currentUserId,
   postId,
-}: PostCardProps) => {
+}: CommentCardProps) => {
   const [showDeleteModal, setDeleteShowModal] = useState<boolean>(false);
   const [showEditModal, setEditShowModal] = useState<boolean>(false);
   const [loadLike, setLoadLike] = useState<boolean>(false);
@@ -191,4 +191,4 @@ const PostCard = ({
   );
 };
 
-export default PostCard;
+export default CommentCard;

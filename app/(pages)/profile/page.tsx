@@ -5,7 +5,12 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import CardSettings from "@/app/components/cards/settings-card";
 
-export default async function Page() {
+export const metadata = {
+  title: "Share It - Profile",
+  description: "Your profile page",
+};
+
+export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
 
   async function getCurrentUser() {

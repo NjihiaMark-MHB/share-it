@@ -1,7 +1,7 @@
 import CreatePostForm from "./components/posts/create-post-form";
 import Posts from "./components/posts/posts";
 
-export default function Home() {
+export default function HomePage() {
 
   return (
     <section className="pt-40">
