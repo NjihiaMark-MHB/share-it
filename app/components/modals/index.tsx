@@ -8,7 +8,7 @@ export enum ModalSize {
   large = "large",
 }
 
-type IModal = {
+type ModalProps = {
   closeModal: () => void;
   saveFunction?: () => void;
   saveBtnText?: string;
@@ -28,7 +28,7 @@ export default function Modal({
   saveFunction,
   children,
   saveBtnText = "Ok",
-}: IModal) {
+}: ModalProps) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">

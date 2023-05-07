@@ -16,11 +16,11 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-type IProps = {
+type DeleteUserFormProps = {
   closeModal: () => void;
 };
 
-export default function DeleteUserForm({ closeModal }: IProps) {
+export default function DeleteUserForm({ closeModal }: DeleteUserFormProps) {
   const router = useRouter();
   const {
     register,

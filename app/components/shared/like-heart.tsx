@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 
-const HeartIcon = ({ fill, onClick }: { fill: boolean; onClick: Function }) => {
+type HeartIconProps={ fill: boolean; onClick: Function }
+
+const HeartIcon = ({ fill, onClick }: HeartIconProps) => {
 	const [hover, setHover] = useState(false);
 	return (
 	  <svg

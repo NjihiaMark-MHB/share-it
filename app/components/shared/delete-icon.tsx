@@ -1,4 +1,8 @@
-const DeleteIcon = ({ onClick }: { onClick?: Function }) => {
+type DeleteIconProps = {
+	onClick?: Function;
+};
+
+const DeleteIcon = ({ onClick }: DeleteIconProps) => {
 	return(
 		<i className="fa-solid fa-trash cursor-pointer text-gray-500 duration-300 ease-in-out hover:text-gray-900" onClick={() => (onClick as Function)()}></i>
 	);

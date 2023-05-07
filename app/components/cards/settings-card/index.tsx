@@ -22,7 +22,12 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-export default function CardSettings(props: FormData) {
+export default function CardSettings({
+  firstName,
+  lastName,
+  bio,
+  image,
+}: FormData) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   // const router = useRouter();
@@ -34,7 +39,6 @@ export default function CardSettings(props: FormData) {
     avatar: state.avatar,
     setAvatar: state.setAvatar,
   }));
-
 
   const cloudinaryWidget =
     isBrowser &&
@@ -69,8 +73,7 @@ export default function CardSettings(props: FormData) {
     );
 
   const { mutate } = useMutation(
-    async (data: FormData) =>
-      await axios.put("/api/users/updateProfile", data),
+    async (data: FormData) => await axios.put("/api/users/updateProfile", data),
     {
       onError: (error: any) => {
         console.log(error);
@@ -90,9 +93,9 @@ export default function CardSettings(props: FormData) {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      firstName: props.firstName,
-      lastName: props.lastName,
-      bio: props.bio,
+      firstName: firstName,
+      lastName: lastName,
+      bio: bio,
     },
     resolver: zodResolver(schema),
   });
@@ -116,7 +119,7 @@ export default function CardSettings(props: FormData) {
           <div className="relative">
             <Image
               alt="..."
-              src={avatar || props.image as string}
+              src={avatar || (image as string)}
               className="shadow-xl rounded-full h-auto align-middle border-none relative -mt-12 mb-2 ml-3 max-w-150-px"
               width={100}
               height={100}

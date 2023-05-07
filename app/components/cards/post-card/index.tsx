@@ -28,7 +28,17 @@ type PostCardProps = {
   postId: string;
 };
 
-const PostCard = (props: PostCardProps) => {
+const PostCard = ({
+  name,
+  profilePic,
+  createdAt,
+  updatedAt,
+  body,
+  likes,
+  userId,
+  currentUserId,
+  postId,
+}: PostCardProps) => {
   const [showDeleteModal, setDeleteShowModal] = useState<boolean>(false);
   const [showEditModal, setEditShowModal] = useState<boolean>(false);
   const [loadLike, setLoadLike] = useState<boolean>(false);
@@ -37,7 +47,7 @@ const PostCard = (props: PostCardProps) => {
   const { user } = session || {};
 
   const currentUserLiked =
-    (session && props.likes?.some((like) => like.userId === user?.id)) || false;
+    (session && likes?.some((like) => like.userId === user?.id)) || false;
 
   // console.log("likes:",props.likes);
 
@@ -80,33 +90,37 @@ const PostCard = (props: PostCardProps) => {
       <div className="flex items-center">
         <Image
           alt="profile pic"
-          src={props.profilePic}
+          src={profilePic}
           className="rounded-full object-cover h-10 w-10 mr-3"
           width={40}
           height={40}
         />
         <div>
           <div className="font-medium text-gray-700">
-            {capitalizeWord(props.name)}
+            {capitalizeWord(name)}
           </div>
           <div className="text-gray-400">
-            {formatDate(props.createdAt)}{" "}
-            {props.createdAt != props.updatedAt && <i>(edited)</i>}
+            {formatDate(createdAt)}{" "}
+            {createdAt != updatedAt && <i>(edited)</i>}
           </div>
         </div>
       </div>
-      <div className="mt-9 mb-9 text-gray-500">{props.body}</div>
+      <div className="mt-9 mb-9 text-gray-500">{body}</div>
       <div>
         <div className="flex items-center justify-between">
           <div>
             <span className="text-gray-400 mr-4">0 comments</span>
-            {loadLike ? <i className="fa-solid fa-spinner text-red-600"></i> : <HeartIcon
-              fill={currentUserLiked}
-              onClick={() => session && likePost({ postId: props.postId })}
-            />}
-            <span className="text-gray-400 ml-1">{props.likes.length}</span>
+            {loadLike ? (
+              <i className="fa-solid fa-spinner text-red-600"></i>
+            ) : (
+              <HeartIcon
+                fill={currentUserLiked}
+                onClick={() => session && likePost({ postId: postId })}
+              />
+            )}
+            <span className="text-gray-400 ml-1">{likes.length}</span>
           </div>
-          {props.userId === props.currentUserId && (
+          {userId === currentUserId && (
             <div className="flex gap-2.5">
               <div>
                 <EditIcon onClick={() => setEditShowModal(true)} />
@@ -122,7 +136,7 @@ const PostCard = (props: PostCardProps) => {
         <Modal
           modalTitle="Delete Post"
           closeModal={() => setDeleteShowModal(false)}
-          saveFunction={() => mutate(props.postId)}
+          saveFunction={() => mutate(postId)}
           footer={true}
           size={ModalSize.small}
         >
@@ -137,8 +151,8 @@ const PostCard = (props: PostCardProps) => {
           size={ModalSize.medium}
         >
           <EditPostForm
-            postId={props.postId}
-            body={props.body}
+            postId={postId}
+            body={body}
             closeModal={() => setEditShowModal(false)}
           />
         </Modal>
