@@ -38,7 +38,6 @@ const Post = ({ postId }: PostProps) => {
   // console.log("data:", data);
 
   return (
-    <div className="mt-10">
       <PostCard
         postId={data.id}
         name={data.user.name}
@@ -49,8 +48,8 @@ const Post = ({ postId }: PostProps) => {
         updatedAt={data.updatedAt as string}
         userId={data.user?.id}
         currentUserId={user?.id}
+		clickable={false}
       />
-    </div>
   );
 };
 
