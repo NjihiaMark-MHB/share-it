@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import HeartIcon from "../../shared/like-heart";
 import DeleteIcon from "../../shared/delete-icon";
 import EditIcon from "../../shared/edit-icon";
-import EditPostForm from "./edit-post-form";
+import EditPostForm from "./edit-comment-form";
 import Modal from "../../modals";
 import { ModalSize } from "../../modals";
 
