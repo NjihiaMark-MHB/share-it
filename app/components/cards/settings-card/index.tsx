@@ -44,9 +44,9 @@ export default function CardSettings({
     isBrowser &&
     (window as any).cloudinary?.createUploadWidget(
       {
-        cloudName: "hzxyensd5",
-        uploadPreset: "aoh4fpwm",
-        sources: ["local", "facebook", "instagram", "camera"],
+        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME,
+        uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+        sources: ["local", "facebook", "instagram", "camera", "url"],
         multiple: false,
         cropping: true,
         // croppingCoordinatesMode: "face",
