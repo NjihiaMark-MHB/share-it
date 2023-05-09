@@ -16,7 +16,9 @@ const ProfileDropDownMenu = () => {
   // const [closedOutside, setClosedOutside] = React.useState(false);
   const btnDropdownRef = React.useRef<HTMLAnchorElement>(null);
   const popoverDropdownRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const openDropdownPopover = () => {
+    setDropdownPopoverShow(true);
     createPopper(
       btnDropdownRef.current as HTMLAnchorElement,
       popoverDropdownRef.current as HTMLDivElement,
@@ -24,19 +26,16 @@ const ProfileDropDownMenu = () => {
         placement: "bottom-start",
       }
     );
-    setDropdownPopoverShow(true);
   };
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
 
   const { data: session } = useSession();
-  const { avatar, setAvatar } = useAvatarStore(
-    (state) => ({
-      avatar: state.avatar,
-      setAvatar: state.setAvatar,
-    }),
-  );
+  const { avatar, setAvatar } = useAvatarStore((state) => ({
+    avatar: state.avatar,
+    setAvatar: state.setAvatar,
+  }));
 
   // setAvatar(session?.user?.image as string);
 
@@ -45,10 +44,10 @@ const ProfileDropDownMenu = () => {
     // console.log("avatar...");
   }, [session?.user?.image, setAvatar]);
 
-  useOnClickOutside(popoverDropdownRef, () => closeDropdownPopover());
+  useOnClickOutside(containerRef, () => closeDropdownPopover());
   // console.log("closedOutside", closedOutside);
   return (
-    <>
+    <div className="relative" ref={containerRef}>
       <Link
         className="hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
         href="#"
@@ -78,6 +77,7 @@ const ProfileDropDownMenu = () => {
         <Link
           className="hover:text-blueGray-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-baseline text-xs uppercase font-bold"
           href="/profile"
+          onClick={() => closeDropdownPopover()}
         >
           <i className="text-blueGray-500 fa-solid fa-user text-lg mr-2" />{" "}
           Profile
@@ -94,7 +94,7 @@ const ProfileDropDownMenu = () => {
           Logout
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 
