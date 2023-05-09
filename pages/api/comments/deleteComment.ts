@@ -40,7 +40,7 @@ export default async function handler(
 
 		} catch (err) {
 			// console.log(err);
-			return res.status(402).json({ err: "Error has occured while deleting a post" });
+			return res.status(403).json({ err: "Error has occured while deleting the comment" });
 		}
 	}
 }

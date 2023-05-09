@@ -27,10 +27,13 @@ type PostsType = {
   updatedAt?: string;
   body: string;
   PostLike: { id: string; postId: string; userId: string }[];
-  Comment?: {
-    createdAt: string;
+  Comment: {
+    Image?: string;
+    body: string;
+    createdAt: string | Date;
     id: string;
     postId: string;
+    updatedAt: string | Date;
     userId: string;
   }[];
   user: {
@@ -86,6 +89,7 @@ const Posts = () => {
                 updatedAt={post.updatedAt as string}
                 userId={post.user?.id}
                 currentUserId={user?.id}
+                comments={post.Comment}
               />
             </div>
           );
@@ -102,6 +106,7 @@ const Posts = () => {
               updatedAt={post.updatedAt as string}
               currentUserId={user?.id}
               userId={post.user?.id}
+              comments={post.Comment}
             />
           );
         }

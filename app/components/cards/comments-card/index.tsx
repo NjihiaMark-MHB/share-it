@@ -4,7 +4,7 @@ import { useState, MouseEvent } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import formatDate from "@/utils/format-date";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import capitalizeWord from "@/utils/capitalizeWord";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import HeartIcon from "../../shared/like-heart";
 import DeleteIcon from "../../shared/delete-icon";
 import EditIcon from "../../shared/edit-icon";
-import EditPostForm from "./edit-comment-form";
+import EditCommentForm from "./edit-comment-form";
 import Modal from "../../modals";
 import { ModalSize } from "../../modals";
 
@@ -23,10 +23,11 @@ type CommentCardProps = {
   createdAt: string;
   updatedAt: string;
   body: string;
-  likes: { id: string; postId: string; userId: string }[];
+  likes: { id: string; commentId: string; userId: string }[];
   userId: string;
   currentUserId: string;
   postId: string;
+  commentId: string;
 };
 
 const CommentCard = ({
@@ -39,6 +40,7 @@ const CommentCard = ({
   userId,
   currentUserId,
   postId,
+  commentId,
 }: CommentCardProps) => {
   const [showDeleteModal, setDeleteShowModal] = useState<boolean>(false);
   const [showEditModal, setEditShowModal] = useState<boolean>(false);
@@ -46,7 +48,7 @@ const CommentCard = ({
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   const { user } = session || {};
-  const router = useRouter();
+  // const router = useRouter();
 
   const currentUserLiked =
     (session && likes?.some((like) => like.userId === user?.id)) || false;
@@ -54,14 +56,13 @@ const CommentCard = ({
   // console.log("likes:",props.likes);
 
   type LikeParams = {
-    postId: string;
+    commentId: string;
   };
 
-  const likePost = async ({ postId }: LikeParams) => {
+  const likePost = async ({ commentId }: LikeParams) => {
     setLoadLike(true);
     try {
-      await axios.post("/api/posts/addLike", { postId });
-      queryClient.invalidateQueries(["posts"]);
+      await axios.post("/api/comments/addLike", { commentId });
       queryClient.invalidateQueries(["post", postId]);
       //return response?.data;
     } catch (error) {
@@ -71,54 +72,40 @@ const CommentCard = ({
   };
 
   const { mutate } = useMutation(
-    async (postId: String) =>
-      await axios.delete("/api/posts/deletePost", { params: { postId } }),
+    async (commentId: String) =>
+      await axios.delete("/api/comments/deleteComment", { params: { commentId } }),
     {
       onError: (error: any) => {
         console.log(error);
         toast.error(error?.response?.data?.error || "Something went wrong", {
-          id: "delete-post-toast",
+          id: "delete-comment-toast",
         });
       },
       onSuccess: (data) => {
-        toast.success("Post has been Deleted 🔥", { id: "delete-post-toast" });
-        queryClient.invalidateQueries(["posts"]);
-        router.push("/");
+        toast.success("Comment has been Deleted 🔥", { id: "delete-comment-toast" });
+        queryClient.invalidateQueries(["post", postId]);
         // console.log(data.data);
       },
     }
   );
 
-  const clickParentDiv = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    router.push(`/post/${postId}`);
-  };
 
   const clickHeart = (e: MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    likePost({ postId });
+    likePost({ commentId });
   };
 
   const openEditModal = (e: MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
     setEditShowModal(true);
   };
 
   const openDeleteModal = (e: MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
     setDeleteShowModal(true);
   };
 
   return (
     <>
       <div
-        className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg p-4 cursor-pointer"
-        onClick={clickParentDiv}
-      >
+        className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg p-4 cursor-pointer">
         <div className="flex items-center">
           <Image
             alt="profile pic"
@@ -141,7 +128,6 @@ const CommentCard = ({
         <div>
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-gray-400 mr-4">0 comments</span>
               {loadLike ? (
                 <i className="fa-solid fa-spinner text-red-600"></i>
               ) : (
@@ -166,7 +152,7 @@ const CommentCard = ({
         <Modal
           modalTitle="Delete Post"
           closeModal={() => setDeleteShowModal(false)}
-          saveFunction={() => mutate(postId)}
+          saveFunction={() => mutate(commentId)}
           footer={true}
           size={ModalSize.small}
         >
@@ -180,8 +166,9 @@ const CommentCard = ({
           footer={false}
           size={ModalSize.medium}
         >
-          <EditPostForm
+          <EditCommentForm
             postId={postId}
+            commentId={commentId}
             body={body}
             closeModal={() => setEditShowModal(false)}
           />

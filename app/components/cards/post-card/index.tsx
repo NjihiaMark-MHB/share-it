@@ -28,6 +28,15 @@ type PostCardProps = {
   currentUserId: string;
   postId: string;
   clickable?: boolean;
+  comments: {
+    Image?: string;
+    body: string;
+    createdAt: string | Date;
+    id: string;
+    postId: string;
+    updatedAt: string | Date;
+    userId: string;
+  }[];
 };
 
 const PostCard = ({
@@ -40,7 +49,8 @@ const PostCard = ({
   userId,
   currentUserId,
   postId,
-  clickable=true,
+  clickable = true,
+  comments,
 }: PostCardProps) => {
   const [showDeleteModal, setDeleteShowModal] = useState<boolean>(false);
   const [showEditModal, setEditShowModal] = useState<boolean>(false);
@@ -100,7 +110,7 @@ const PostCard = ({
   const clickHeart = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    likePost({ postId });
+    user && likePost({ postId });
   };
 
   const openEditModal = (e: MouseEvent<HTMLElement>) => {
@@ -118,8 +128,11 @@ const PostCard = ({
   return (
     <>
       <div
-        className={`relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg p-4` + (clickable ? " cursor-pointer" : "")}
-        onClick={clickable ? clickParentDiv: () => {}}
+        className={
+          `relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg p-4` +
+          (clickable ? " cursor-pointer" : "")
+        }
+        onClick={clickable ? clickParentDiv : () => {}}
       >
         <div className="flex items-center">
           <Image
@@ -143,7 +156,7 @@ const PostCard = ({
         <div>
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-gray-400 mr-4">0 comments</span>
+              <span className="text-gray-400 mr-4">{comments.length} comments</span>
               {loadLike ? (
                 <i className="fa-solid fa-spinner text-red-600"></i>
               ) : (

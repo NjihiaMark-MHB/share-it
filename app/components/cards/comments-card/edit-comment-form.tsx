@@ -6,6 +6,7 @@ import axios from "axios";
 import * as z from "zod";
 
 type EditPostFormProps = {
+  commentId: string;
   postId: string;
   body: string;
   closeModal: () => void;
@@ -19,7 +20,12 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-const EditPostForm = ({ postId, body, closeModal }: EditPostFormProps) => {
+const EditCommentForm = ({
+  commentId,
+  body,
+  closeModal,
+  postId,
+}: EditPostFormProps) => {
   const queryClient = useQueryClient();
   const {
     register,
@@ -34,27 +40,27 @@ const EditPostForm = ({ postId, body, closeModal }: EditPostFormProps) => {
   });
 
   const { mutate } = useMutation(
-    async (data: FormData) => await axios.put("/api/posts/updatePost", {...data, postId}),
+    async (data: FormData) =>
+      await axios.put("/api/comments/updateComment", { ...data, commentId }),
     {
       onError: (error: any) => {
         console.log(error);
         toast.error(error?.response?.data?.error || "Something went wrong", {
-          id: "post-toast",
+          id: "comment-toast",
         });
       },
       onSuccess: (data) => {
-        toast.success("Post has been updated 🔥", { id: "post-toast" });
-        queryClient.invalidateQueries(["posts"]);
-		queryClient.invalidateQueries(["post", postId]);
+        toast.success("Comment has been updated 🔥", { id: "comment-toast" });
+        queryClient.invalidateQueries(["post", postId]);
         reset();
-		closeModal();
+        closeModal();
         console.log(data.data);
       },
     }
   );
 
   const onSubmit = async (data: FormData) => {
-    toast.loading("Editing post", { id: "post-toast" });
+    toast.loading("Editing comment", { id: "comment-toast" });
     mutate(data);
   };
   return (
@@ -87,4 +93,4 @@ const EditPostForm = ({ postId, body, closeModal }: EditPostFormProps) => {
   );
 };
 
-export default EditPostForm;
+export default EditCommentForm;

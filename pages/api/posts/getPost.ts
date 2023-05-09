@@ -14,6 +14,12 @@ export default async function handler(
         include: {
           user: true,
           PostLike: true,
+		  Comment: {
+			include: {
+				user: true,
+				CommentLike: true,
+			}
+		  }
         },
       });
       return res.status(200).json(data);

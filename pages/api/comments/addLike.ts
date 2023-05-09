@@ -55,8 +55,8 @@ export default async function handler(
 		} catch (err) {
 			// console.log(err);
 			res
-				.status(402)
-				.json({ err: "Error has occured while trying to like post" });
+				.status(403)
+				.json({ err: "Error has occured while trying to like comment" });
 		}
 	}
 }
