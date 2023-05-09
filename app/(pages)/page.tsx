@@ -1,5 +1,5 @@
-import CreatePostForm from "./components/posts/create-post-form";
-import Posts from "./components/posts/posts";
+import CreatePostForm from "../components/posts/create-post-form";
+import Posts from "../components/posts/posts";
 
 export default function HomePage() {
 

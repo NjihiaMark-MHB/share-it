@@ -1,8 +1,7 @@
-import AuthProvider from "./auth/provider";
-import Navbar from "./components/navbar";
-import QueryWrapper from "./components/wrappers/query-wrapper";
+import AuthProvider from "../auth/provider";
+import Navbar from "../components/navbar";
+import QueryWrapper from "../components/wrappers/query-wrapper";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata = {
