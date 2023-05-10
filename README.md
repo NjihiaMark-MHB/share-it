@@ -10,7 +10,7 @@ AUTH_SECRET=somesecret
 NEXT_PUBLIC_CLOUDINARY_CLOUDNAME=a_cloudinary_cloud_name
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=a_preset
 ```
-Install dependicies and start with:
+Install dependencies and start with:
 
 ```bash
 npm run dev
