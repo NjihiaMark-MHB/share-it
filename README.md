@@ -20,4 +20,4 @@ yarn dev
 pnpm dev
 ```
 
-You can find further documentation [here](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+You can find further documentation [here](https://medium.com/swlh/full-stack-next-js-13-app-using-typescript-tailwind-react-query-and-zustand-95cc16df39e0).
